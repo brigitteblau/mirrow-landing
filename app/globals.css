@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --borde: 0 0 0 / 0.1;
+  }
+
+  * {
+    @apply border-black/10;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* El header sticky no tapa el título de la sección al saltar por ancla. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-white font-sans text-tinta antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display font-extrabold;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    @apply bg-rojo-500 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-rojo-500 ring-offset-2 ring-offset-white;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  .contenedor {
+    @apply mx-auto w-full max-w-contenido px-5 sm:px-8;
+  }
+
+  /* Etiqueta de sección: "01 / Productos", igual que el manual de marca. */
+  .rotulo {
+    @apply flex items-center gap-2.5 font-sans text-xs font-bold uppercase tracking-[0.18em] text-premium;
+  }
+
+  .rotulo::before {
+    content: '';
+    @apply h-px w-8 bg-rojo-500;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-marca px-6 py-3.5 font-sans text-[0.9375rem] font-bold
+           transition-colors duration-200 ease-marca;
+  }
+
+  .btn-primario {
+    @apply btn bg-rojo-500 text-white hover:bg-rojo-600;
+  }
+
+  .btn-oscuro {
+    @apply btn bg-tinta text-white hover:bg-carbon;
+  }
+
+  .btn-contorno {
+    @apply btn border border-black/15 bg-transparent text-tinta hover:border-tinta hover:bg-tinta hover:text-white;
+  }
+
+  .btn-claro {
+    @apply btn border border-white/25 bg-transparent text-white hover:bg-white hover:text-tinta;
+  }
+
+  .campo {
+    @apply w-full rounded-marca border border-black/15 bg-white px-4 py-3 font-sans text-[0.9375rem] text-tinta
+           transition-colors duration-200 placeholder:text-premium/70
+           focus:border-tinta focus:outline-none focus:ring-2 focus:ring-rojo-500/25;
+  }
+
+  .etiqueta-campo {
+    @apply mb-2 block font-sans text-[0.8125rem] font-bold uppercase tracking-wider text-premium;
+  }
+}
+
+@layer utilities {
+  /* Trama diagonal del rebranding: se apoya en el ángulo de la tipografía. */
+  .trama-diagonal {
+    background-image: repeating-linear-gradient(
+      -68deg,
+      rgb(0 0 0 / 0.045) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  .trama-diagonal-clara {
+    background-image: repeating-linear-gradient(
+      -68deg,
+      rgb(255 255 255 / 0.07) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  /* Itálica falsa al ángulo del logotipo, para los rótulos tipo racing. */
+  .inclinado {
+    transform: skewX(-11deg);
+  }
+}
