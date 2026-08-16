@@ -1,203 +1,66 @@
-# MIRROW Landing Page - Next.js + Tailwind + Vercel
+# MIRROW — Landing mayorista
 
-Landing page SEO-optimizada para vender buzos polares, sweaters y ropa mayorista en Argentina.
+Landing de captación de mayoristas para Mirrow, fábrica de indumentaria
+masculina con showroom en Once, CABA.
 
-## 🚀 Features
+Next.js 14 (App Router) · Tailwind · Motion · TypeScript.
 
-- ✅ **Next.js 14** - App Router, SSG, SSR
-- ✅ **Tailwind CSS** - Diseño responsivo y moderno
-- ✅ **SEO Optimizado**
-  - Meta tags dinámicos
-  - Schema Markup (JSON-LD)
-  - Sitemap automático
-  - Robots.txt
-  - Canonical URLs
-- ✅ **Multi-Provincia** - Rutas dinámicas para cada provincia de Argentina
-- ✅ **Formulario WhatsApp** - Contacto directo sin intermediarios
-- ✅ **Mobile-First** - Responsive en todos los dispositivos
-- ✅ **Performance** - Optimizado para Core Web Vitals
-
-## 📁 Estructura del Proyecto
-
-```
-mirrow-landing/
-├── app/
-│   ├── layout.tsx          # Layout raíz
-│   ├── page.tsx            # Home page
-│   ├── [provincia]/        # Páginas dinámicas por provincia
-│   │   └── page.tsx
-│   ├── globals.css         # Estilos globales
-│   └── sitemap.ts          # Sitemap automático
-├── components/
-│   ├── Header.tsx          # Header con navegación
-│   ├── Footer.tsx          # Footer con links
-│   └── ContactForm.tsx     # Formulario WhatsApp
-├── public/
-│   └── robots.txt          # Robots.txt para SEO
-├── package.json
-├── tsconfig.json
-├── tailwind.config.ts
-├── next.config.js
-└── postcss.config.js
-```
-
-## ⚙️ Configuración Inicial
-
-### 1. Clonar y preparar
+## Arrancar
 
 ```bash
-cd mirrow-landing
 npm install
+cp .env.example .env.local   # cargar el WhatsApp real
+npm run dev                  # http://localhost:3000
 ```
 
-### 2. Completar variables
+## Variables de entorno
 
-**En `components/ContactForm.tsx`, reemplaza:**
+| Variable | Obligatoria | Qué es |
+|---|---|---|
+| `NEXT_PUBLIC_WHATSAPP` | **Sí** | Número de atención mayorista en formato internacional, sin `+` ni espacios. Ej: `5491123456789`. Sin esto el formulario abre un chat a un número inexistente. |
 
-```typescript
-const WHATSAPP_NUMBER = '{{WHATSAPP_NUMBER}}'
+En Vercel se carga en *Settings → Environment Variables* para Production,
+Preview y Development.
+
+## Qué se toca para actualizar el sitio
+
+| Archivo | Cuándo |
+|---|---|
+| `lib/productos.js` | Cambió el catálogo. Las 9 categorías (`categorias`) y los destacados que rotan (`destacados`). |
+| `lib/site.ts` | Cambió una dirección, un horario, una red social o el listado de provincias. |
+| `public/productos/` | Fotos nuevas. Formato y comando de conversión en [DESIGN.md](DESIGN.md#7-fotografía). |
+| `DESIGN.md` | Antes de inventar un color, un ícono o una animación nueva. |
+
+Los años de trayectoria y el año del footer se calculan solos: no hay ningún
+número que se desactualice en enero.
+
+## Estructura
+
+```
+app/
+  layout.tsx          fuentes, metadata, header/footer
+  page.tsx            home
+  [provincia]/        19 landings por provincia (SSG)
+  not-found.tsx       404 con marca
+  sitemap.ts robots.ts
+components/
+  sections/           una sección de la home por archivo
+  motion/primitives   Reveal, Stagger, TituloAnimado, Marquesina…
+  icons.tsx           set de íconos propio (sin emojis)
+  Logo.tsx            logotipo vectorizado
+  Carrusel.tsx        destacados, scroll-snap nativo
+lib/
+  productos.js        catálogo
+  site.ts             datos de la empresa
 ```
 
-Por tu número de WhatsApp (ej: `5491123456789`)
+## Deploy
 
-### 3. Reemplazar placeholders
+Push a la rama principal. Vercel corre `npm run build`; salen 27 páginas
+estáticas (home + 19 provincias + sitemap, robots e íconos).
 
-- **Logo:** Agregar en `public/logo.png`
-- **Colores:** Ajustar en `tailwind.config.ts` (tema `mirrow`)
-- **Email/Contacto:** Actualizar en Footer y Header
-
-## 🏃 Desarrollo Local
+Antes de mergear:
 
 ```bash
-npm run dev
+npx tsc --noEmit && npm run build
 ```
-
-Abre [http://localhost:3000](http://localhost:3000)
-
-## 🔍 SEO y Keywords
-
-La landing rankea para:
-
-- ✅ "Buzos polares Argentina"
-- ✅ "Sweaters mayorista"
-- ✅ "Fábrica de ropa Once"
-- ✅ "Ropa mayorista Buenos Aires"
-- ✅ "Buzos polares [Provincia]" (dinámico)
-
-### Meta Tags
-
-- Cada página tiene `meta` titles y descriptions únicos
-- Open Graph para redes sociales
-- Twitter Cards
-- Schema Markup (LocalBusiness, Product)
-
-## 📱 Rutas y Páginas
-
-| Ruta | Descripción |
-|------|------------|
-| `/` | Home page - Presentación general |
-| `/buenos-aires` | Landing específica para Buenos Aires |
-| `/cordoba` | Landing específica para Córdoba |
-| ... | (19 provincias más) |
-
-Cada provincia tiene:
-- H1 optimizado: "Buzos y Sweaters en [Provincia]"
-- Descripción localizada
-- Formulario de contacto
-- Schema Markup específico
-
-## 🚀 Deploy en Vercel
-
-### Opción 1: Vercel CLI
-
-```bash
-npm i -g vercel
-vercel
-```
-
-### Opción 2: GitHub + Vercel
-
-1. Sube el repo a GitHub
-2. Conecta con Vercel
-3. Deploy automático en cada push
-
-## 📊 Analytics y Tracking
-
-Para agregar Google Analytics:
-
-En `app/layout.tsx`, agregar:
-
-```tsx
-<script
-  src="https://www.googletagmanager.com/gtag/js?id=GA_ID"
-  strategy="afterInteractive"
-/>
-<script
-  id="gtag-init"
-  strategy="afterInteractive"
-  dangerouslySetInnerHTML={{
-    __html: `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'GA_ID');
-    `,
-  }}
-/>
-```
-
-Reemplazar `GA_ID` con tu ID de Google Analytics.
-
-## 🔧 Customización
-
-### Cambiar colores
-
-En `tailwind.config.ts`:
-
-```typescript
-mirrow: {
-  blue: '#003366',      // Azul principal
-  lightblue: '#0055AA', // Azul claro
-  accent: '#FF6600',    // Naranja (CTAs)
-  light: '#F5F5F5',     // Gris muy claro
-}
-```
-
-### Agregar más provincias
-
-En `app/[provincia]/page.tsx` y `app/sitemap.ts`, agregar objeto en `PROVINCES`.
-
-### Cambiar logo
-
-Crear archivo `public/logo.svg` y referenciar en `components/Header.tsx`.
-
-## 📝 Content Optimization
-
-Cada sección está optimizada para SEO:
-
-- **H1:** Keyword principal (1 por página)
-- **H2/H3:** Keywords secundarias
-- **Paragraphs:** Contenido natural con LSI keywords
-- **Links internos:** Estructura de silos
-- **Schema:** Datos estructurados
-
-## ✅ Checklist Pre-Producción
-
-- [ ] Reemplazar número WhatsApp
-- [ ] Agregar logo de MIRROW
-- [ ] Actualizar colores de marca
-- [ ] Revisar meta descriptions
-- [ ] Agregar Google Analytics
-- [ ] Revisar enlaces internos y externos
-- [ ] Test en móvil
-- [ ] Test en escritorio
-- [ ] Validar con PageSpeed Insights
-- [ ] Enviar sitemap a Google Search Console
-
-## 📞 Soporte
-
-Para cambios o mejoras, contactar al desarrollador.
-
----
-
-**Construido con ❤️ para MIRROW**
