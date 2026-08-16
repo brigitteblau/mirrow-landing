@@ -38,13 +38,29 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ease-marca ${
-        scrolleado ? 'border-black/10 bg-white/85 backdrop-blur-xl' : 'border-transparent bg-white'
+      className={`sticky top-0 z-50 border-b border-black/10 bg-white transition-shadow duration-300 ease-marca ${
+        scrolleado ? 'shadow-[0_1px_0_rgba(0,0,0,0.06),0_8px_24px_-16px_rgba(0,0,0,0.25)]' : ''
       }`}
     >
+      {/* Barra institucional: horarios y dirección arriba de todo, como en
+          cualquier proveedor que atiende por mostrador hace décadas. */}
+      <div className="hidden border-b border-black/10 bg-elegancia lg:block">
+        <div className="contenedor flex h-9 items-center justify-between text-xs text-premium">
+          <p>Atención mayorista: lunes a viernes de 9 a 18 · Once, CABA</p>
+          <a href={`mailto:${site.email}`} className="transition-colors hover:text-tinta">
+            {site.email}
+          </a>
+        </div>
+      </div>
+
       <div className="contenedor flex h-[72px] items-center justify-between gap-6">
-        <Link href="/" aria-label="Mirrow, inicio" className="shrink-0">
-          <Wordmark className="h-[19px] w-auto text-tinta" />
+        <Link href="/" aria-label="Mirrow, inicio" className="flex shrink-0 items-center gap-3">
+          <Wordmark className="h-[18px] w-auto text-tinta" />
+          <span className="hidden border-l border-black/15 pl-3 text-[0.625rem] font-bold uppercase leading-tight tracking-[0.12em] text-premium sm:block">
+            Desde
+            <br />
+            {site.foundingYear}
+          </span>
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-8 lg:flex">
@@ -69,7 +85,7 @@ export default function Header() {
           >
             Tienda online
           </a>
-          <a href="#contacto" className="btn-oscuro hidden !py-2.5 !text-sm lg:inline-flex">
+          <a href="#contacto" className="btn-primario hidden !py-2.5 lg:inline-flex">
             Pedir lista mayorista
           </a>
           <button
@@ -116,7 +132,7 @@ export default function Header() {
                   <Link
                     href={enlace.href}
                     onClick={() => setAbierto(false)}
-                    className="block border-b border-black/10 py-5 font-display text-3xl font-extrabold tracking-tight text-tinta"
+                    className="block border-b border-black/10 py-4 font-display text-xl font-extrabold uppercase tracking-tight text-tinta"
                   >
                     {enlace.label}
                   </Link>
@@ -124,7 +140,7 @@ export default function Header() {
               ))}
 
               <div className="mt-8 flex flex-col gap-3">
-                <a href="#contacto" onClick={() => setAbierto(false)} className="btn-oscuro w-full">
+                <a href="#contacto" onClick={() => setAbierto(false)} className="btn-primario w-full">
                   Pedir lista mayorista
                 </a>
                 <a

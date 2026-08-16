@@ -1,75 +1,92 @@
-import { Swoosh } from '../Logo'
+import Image from 'next/image'
 import { Flecha, WhatsApp } from '../icons'
-import { Marquesina, Reveal, TituloAnimado } from '../motion/primitives'
+import { Reveal } from '../motion/primitives'
 import { site, whatsappLink } from '@/lib/site'
-import { temporada } from '@/lib/productos'
 
-const cinta = [
-  'Curva completa de talles',
-  'Reposición todo el año',
-  'Envíos a todo el país',
-  'Producción propia',
-  'Sin intermediarios',
-]
-
+/**
+ * Hero institucional.
+ *
+ * La foto manda y el texto acompaña: es lo que separa a una fábrica con
+ * trayectoria de una marca nueva que necesita explicarse con tipografía
+ * gigante. La imagen se configura en `site.heroFoto`.
+ */
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-tinta text-white">
-      <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
-      <Swoosh
-        className="pointer-events-none absolute -right-24 top-4 hidden w-[46rem] text-rojo-500/[0.07] md:block"
-        aria-hidden="true"
-      />
+    <section className="border-b border-black/10 bg-white">
+      <div className="contenedor grid items-center gap-12 py-14 lg:grid-cols-[1fr_1.05fr] lg:gap-16 lg:py-20">
+        <div>
+          <p className="rotulo mb-6">Venta mayorista</p>
 
-      <div className="contenedor relative pb-16 pt-20 sm:pb-24 sm:pt-28">
-        <Reveal as="p" className="rotulo mb-7 text-white/55" distancia={12}>
-          {/* Mayoristas · {temporada} */}
-          Mayoristas
-        </Reveal>
+          <Reveal distancia={14}>
+            {/* El año ya está en el badge del header: repetirlo acá alarga el
+                titular a cuatro renglones sin agregar información. */}
+            <h1 className="max-w-[20ch] text-display uppercase">
+              Ropa de hombre por mayor, directo de fábrica
+            </h1>
+          </Reveal>
 
-        <TituloAnimado
-          texto="Ropa de hombre por mayor"
-          className="max-w-[16ch] text-display uppercase"
-        />
+          <Reveal delay={0.08} className="mt-6 max-w-lg">
+            <p className="text-lead text-premium">
+              Producimos y vendemos directo a locales de todo el país. Remeras, jeans, camisas,
+              buzos y pantalones con curva completa de talles y reposición durante todo el año.
+            </p>
+          </Reveal>
 
-        <Reveal delay={0.35} className="mt-8 max-w-xl">
-          <p className="text-lead text-white/70">
-            Somos fábrica. {site.years} años produciendo indumentaria masculina en Buenos Aires y
-            abasteciendo a locales de todo el país. Vos elegís el surtido, nosotros lo tenemos en
-            stock.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.45} className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a href="#contacto" className="btn-primario">
-            Pedir lista mayorista
-            <Flecha className="h-[18px] w-[18px]" />
-          </a>
-          <a
-            href={whatsappLink('Hola Mirrow, quiero consultar por venta mayorista.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-claro"
-          >
-            <WhatsApp className="h-5 w-5" />
-            Hablar con un asesor
-          </a>
-        </Reveal>
-      </div>
-
-      {/* Cinta de argumentos: repite el ángulo del logotipo. */}
-      <div className="relative border-y border-white/10 bg-carbon py-3.5">
-        <Marquesina duracion={38} className="[mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
-          {cinta.map((texto) => (
-            <span
-              key={texto}
-              className="flex shrink-0 items-center gap-6 whitespace-nowrap px-6 text-xs font-bold uppercase tracking-[0.16em] text-white/45"
+          <Reveal delay={0.14} className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#contacto" className="btn-primario">
+              Pedir lista mayorista
+              <Flecha className="h-4 w-4" />
+            </a>
+            <a
+              href={whatsappLink('Hola Mirrow, quiero consultar por venta mayorista.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-contorno"
             >
-              {texto}
-              <Swoosh className="h-2.5 w-auto text-rojo-500" />
-            </span>
-          ))}
-        </Marquesina>
+              <WhatsApp className="h-[18px] w-[18px]" />
+              Hablar con un asesor
+            </a>
+          </Reveal>
+
+          {/* Datos duros, no adjetivos. */}
+          <Reveal delay={0.2}>
+            <dl className="mt-11 grid max-w-lg grid-cols-3 gap-6 border-t border-black/10 pt-7">
+              {[
+                { valor: String(site.years), rotulo: 'Años de trayectoria' },
+                { valor: String(site.locales.length), rotulo: 'Showrooms en Once' },
+                { valor: '23', rotulo: 'Provincias con envío' },
+              ].map((dato) => (
+                <div key={dato.rotulo}>
+                  <dt className="sr-only">{dato.rotulo}</dt>
+                  <dd>
+                    <span className="cifras-tabulares block font-display text-3xl font-extrabold leading-none text-tinta">
+                      {dato.valor}
+                    </span>
+                    <span className="mt-2 block text-xs leading-snug text-premium">
+                      {dato.rotulo}
+                    </span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
+        </div>
+
+        <Reveal delay={0.1} direccion="izquierda" distancia={16}>
+          <figure>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-marca bg-elegancia">
+              <Image
+                src={site.heroFoto.src}
+                alt={site.heroFoto.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover"
+              />
+            </div>
+            <figcaption className="mt-3 text-xs text-premium">{site.heroFoto.epigrafe}</figcaption>
+          </figure>
+        </Reveal>
       </div>
     </section>
   )

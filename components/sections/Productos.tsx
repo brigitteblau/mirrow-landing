@@ -40,7 +40,7 @@ export default function Productos() {
                       /* Las tres primeras entran en el primer scroll en desktop. */
                       priority={i < 3}
                       sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 380px"
-                      className="object-cover object-top transition-transform duration-700 ease-marca group-hover:scale-[1.05]"
+                      className="object-cover object-top transition-transform duration-500 ease-marca group-hover:scale-[1.02]"
                     />
                     <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-wider text-tinta backdrop-blur">
                       {categoria.articulos.length} art.
@@ -49,11 +49,11 @@ export default function Productos() {
 
                   <div className="flex flex-1 flex-col p-7">
                     <div className="mb-4 flex items-center gap-3">
-                      <Icono className="h-7 w-7 shrink-0 text-tinta transition-colors duration-300 group-hover:text-rojo-500" />
+                      <Icono className="h-7 w-7 shrink-0 text-premium" />
                       <h3 className="text-subtitulo uppercase">{categoria.nombre}</h3>
                     </div>
 
-                    <p className="text-sm font-semibold text-rojo-500">{categoria.claim}</p>
+                    <p className="text-sm font-semibold text-tinta">{categoria.claim}</p>
                     <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-premium">
                       {categoria.detalle}
                     </p>

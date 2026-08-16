@@ -1,20 +1,13 @@
 'use client'
 
-import {
-  animate,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-  type Variants,
-} from 'motion/react'
-import { useMemo } from 'react'
+import { motion, useReducedMotion, type Variants } from 'motion/react'
 
 /**
  * Primitivas de animación de la marca.
  *
- * Regla de la casa: la animación acompaña la lectura, no la interrumpe.
- * Todo entra una sola vez, con desplazamientos cortos y una curva suave.
+ * Regla de la casa: la animación acompaña la lectura, no la interrumpe. Todo
+ * entra una sola vez, con desplazamientos cortos y una curva suave. Nada se
+ * mueve solo, nada se repite en bucle, nada llama la atención sobre sí mismo.
  * Si el sistema pide menos movimiento, las primitivas se apagan solas.
  */
 
@@ -40,7 +33,7 @@ export function Reveal({
   children,
   className,
   delay = 0,
-  distancia = 20,
+  distancia = 16,
   direccion = 'arriba',
   as: Tag = 'div',
 }: {
@@ -60,7 +53,7 @@ export function Reveal({
       initial={quieto ? false : { opacity: 0, ...offset(direccion, distancia) }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.6, delay, ease: EASE }}
+      transition={{ duration: 0.5, delay, ease: EASE }}
     >
       {children}
     </M>
@@ -100,7 +93,7 @@ export function Stagger({
 }
 
 const itemVariants: Variants = {
-  oculto: { opacity: 0, y: 18 },
+  oculto: { opacity: 0, y: 14 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
 }
 
@@ -121,81 +114,6 @@ export function Item({
   )
 }
 
-/**
- * Titular que entra palabra por palabra. Reservado para los h1:
- * usado de más pierde el efecto y cansa.
- */
-export function TituloAnimado({
-  texto,
-  className,
-  delay = 0,
-}: {
-  texto: string
-  className?: string
-  delay?: number
-}) {
-  const quieto = useReducedMotion()
-  const palabras = useMemo(() => texto.split(' '), [texto])
-
-  if (quieto) return <h1 className={className}>{texto}</h1>
-
-  return (
-    <motion.h1
-      className={className}
-      initial="oculto"
-      animate="visible"
-      variants={{ visible: { transition: { staggerChildren: 0.045, delayChildren: delay } } }}
-    >
-      {palabras.map((palabra, i) => (
-        <span key={`${palabra}-${i}`} className="inline-block overflow-hidden align-bottom">
-          <motion.span
-            className="inline-block"
-            variants={{
-              oculto: { y: '105%' },
-              visible: { y: 0, transition: { duration: 0.7, ease: EASE } },
-            }}
-          >
-            {palabra}
-            {i < palabras.length - 1 ? ' ' : ''}
-          </motion.span>
-        </span>
-      ))}
-    </motion.h1>
-  )
-}
-
-/**
- * Cinta infinita. Duplica los hijos una vez para que el bucle cierre sin salto;
- * `duracion` es lo que tarda en recorrer una copia completa.
- */
-export function Marquesina({
-  children,
-  duracion = 32,
-  className,
-}: {
-  children: React.ReactNode
-  duracion?: number
-  className?: string
-}) {
-  const quieto = useReducedMotion()
-
-  return (
-    <div className={`flex overflow-hidden ${className ?? ''}`}>
-      {[0, 1].map((copia) => (
-        <motion.div
-          key={copia}
-          aria-hidden={copia === 1}
-          className="flex shrink-0 items-center"
-          animate={quieto ? undefined : { x: ['0%', '-100%'] }}
-          transition={{ duration: duracion, ease: 'linear', repeat: Infinity }}
-        >
-          {children}
-        </motion.div>
-      ))}
-    </div>
-  )
-}
-
 /** Tarjeta que se levanta apenas al pasar el mouse. */
 export function Elevar({
   children,
@@ -209,7 +127,7 @@ export function Elevar({
   return (
     <motion.div
       className={className}
-      whileHover={quieto ? undefined : { y: -6 }}
+      whileHover={quieto ? undefined : { y: -3 }}
       transition={{ duration: 0.3, ease: EASE }}
     >
       {children}
@@ -217,28 +135,3 @@ export function Elevar({
   )
 }
 
-/** Contador que sube al entrar en pantalla. Para la tira de cifras. */
-export function Contador({ hasta, sufijo = '' }: { hasta: number; sufijo?: string }) {
-  const quieto = useReducedMotion()
-  const valor = useMotionValue(0)
-  const redondeado = useTransform(valor, (v) => Math.round(v).toString())
-
-  if (quieto) {
-    return (
-      <span>
-        {hasta}
-        {sufijo}
-      </span>
-    )
-  }
-
-  return (
-    <motion.span
-      onViewportEnter={() => animate(valor, hasta, { duration: 1.4, ease: EASE })}
-      viewport={{ once: true }}
-    >
-      <motion.span>{redondeado}</motion.span>
-      {sufijo}
-    </motion.span>
-  )
-}

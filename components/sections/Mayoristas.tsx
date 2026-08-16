@@ -64,7 +64,7 @@ export default function Mayoristas() {
         <Stagger className="grid gap-x-10 gap-y-11 sm:grid-cols-2 lg:grid-cols-3" paso={0.06}>
           {beneficios.map(({ Icono, titulo, texto }) => (
             <Item key={titulo}>
-              <Icono className="h-8 w-8 text-rojo-500" />
+              <Icono className="h-7 w-7 text-tinta" />
               <h3 className="mt-5 text-lg font-bold uppercase tracking-tight text-tinta">{titulo}</h3>
               <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-premium">{texto}</p>
             </Item>
@@ -72,7 +72,7 @@ export default function Mayoristas() {
         </Stagger>
 
         {/* Cómo se compra, en cuatro pasos */}
-        <div className="mt-24 rounded-marca bg-tinta p-8 text-white sm:p-12">
+        <div className="mt-20 rounded-marca bg-tinta p-8 text-white sm:p-12">
           <Reveal as="p" className="rotulo mb-5 text-white/50" distancia={12}>
             Cómo se compra
           </Reveal>
@@ -85,7 +85,7 @@ export default function Mayoristas() {
           <Stagger className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4" paso={0.08}>
             {pasos.map((paso) => (
               <Item key={paso.n} className="border-t border-white/15 pt-6">
-                <span className="inclinado inline-block font-display text-4xl font-extrabold text-rojo-500">
+                <span className="cifras-tabulares inline-block font-display text-2xl font-extrabold text-rojo-500">
                   {paso.n}
                 </span>
                 <h4 className="mt-4 text-base font-bold uppercase tracking-tight">{paso.titulo}</h4>

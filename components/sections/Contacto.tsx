@@ -1,5 +1,4 @@
 import ContactForm from '../ContactForm'
-import { Swoosh } from '../Logo'
 import { Instagram, Pin, WhatsApp } from '../icons'
 import { Reveal } from '../motion/primitives'
 import { site, whatsappLink } from '@/lib/site'
@@ -18,11 +17,6 @@ export default function Contacto({
       id="contacto"
       className="relative scroll-mt-24 overflow-hidden bg-tinta py-20 text-white sm:py-28"
     >
-      <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
-      <Swoosh
-        className="pointer-events-none absolute -bottom-16 -left-24 w-[34rem] text-rojo-500/[0.07]"
-        aria-hidden="true"
-      />
 
       <div className="contenedor relative grid gap-14 lg:grid-cols-[0.85fr_1fr] lg:gap-20">
         <div>

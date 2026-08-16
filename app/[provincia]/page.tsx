@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Productos from '@/components/sections/Productos'
 import Contacto from '@/components/sections/Contacto'
-import { Swoosh } from '@/components/Logo'
 import { Camion, Etiqueta, Flecha, Regla, WhatsApp } from '@/components/icons'
-import { Item, Reveal, Stagger, TituloAnimado } from '@/components/motion/primitives'
+import { Item, Reveal, Stagger } from '@/components/motion/primitives'
 import { PROVINCIAS, site, whatsappLink, type ProvinciaSlug } from '@/lib/site'
 
 type Props = { params: { provincia: string } }
@@ -77,50 +77,60 @@ export default function PaginaProvincia({ params }: Props) {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-tinta text-white">
-        <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
-        <Swoosh
-          className="pointer-events-none absolute -right-24 top-8 hidden w-[42rem] text-rojo-500/[0.07] md:block"
-          aria-hidden="true"
-        />
+      <section className="border-b border-black/10 bg-white">
+        <div className="contenedor grid items-center gap-12 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:py-20">
+          <div>
+            <nav aria-label="Migas de pan" className="mb-7 text-sm text-premium">
+              <Link href="/" className="transition-colors hover:text-tinta">
+                Inicio
+              </Link>
+              <span className="mx-2 text-black/20">/</span>
+              <span className="text-tinta">{provincia.nombre}</span>
+            </nav>
 
-        <div className="contenedor relative pb-16 pt-16 sm:pb-24 sm:pt-20">
-          <Reveal as="p" className="mb-8 text-sm text-white/45" distancia={10}>
-            <Link href="/" className="transition-colors hover:text-white">
-              Inicio
-            </Link>
-            <span className="mx-2 text-white/25">/</span>
-            <span className="text-white/70">{provincia.nombre}</span>
-          </Reveal>
+            <Reveal distancia={14}>
+              <h1 className="max-w-[16ch] text-display uppercase">
+                Ropa mayorista en {provincia.nombre}
+              </h1>
+            </Reveal>
 
-          <TituloAnimado
-            texto={`Ropa mayorista en ${provincia.nombre}`}
-            className="max-w-[15ch] text-display uppercase"
-          />
+            <Reveal delay={0.08} className="mt-6 max-w-lg">
+              <p className="text-lead text-premium">
+                Abastecemos locales de toda la {provincia.region.toLowerCase()} desde nuestra
+                fábrica en Buenos Aires. {provincia.logistica}
+              </p>
+            </Reveal>
 
-          <Reveal delay={0.3} className="mt-8 max-w-xl">
-            <p className="text-lead text-white/70">
-              Abastecemos locales de toda la {provincia.region.toLowerCase()} desde nuestra fábrica
-              en Buenos Aires. {provincia.logistica}
-            </p>
-          </Reveal>
+            <Reveal delay={0.14} className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a href="#contacto" className="btn-primario">
+                Pedir lista para {provincia.nombre}
+                <Flecha className="h-4 w-4" />
+              </a>
+              <a
+                href={whatsappLink(
+                  `Hola Mirrow, tengo un local en ${provincia.nombre} y quiero consultar por venta mayorista.`,
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-contorno"
+              >
+                <WhatsApp className="h-[18px] w-[18px]" />
+                Hablar con un asesor
+              </a>
+            </Reveal>
+          </div>
 
-          <Reveal delay={0.4} className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <a href="#contacto" className="btn-primario">
-              Pedir lista para {provincia.nombre}
-              <Flecha className="h-[18px] w-[18px]" />
-            </a>
-            <a
-              href={whatsappLink(
-                `Hola Mirrow, tengo un local en ${provincia.nombre} y quiero consultar por venta mayorista.`,
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-claro"
-            >
-              <WhatsApp className="h-5 w-5" />
-              Hablar con un asesor
-            </a>
+          <Reveal delay={0.1} direccion="izquierda" distancia={16}>
+            <figure className="relative aspect-[4/3] overflow-hidden rounded-marca bg-elegancia">
+              <Image
+                src={site.heroFoto.src}
+                alt={site.heroFoto.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 600px"
+                className="object-cover"
+              />
+            </figure>
           </Reveal>
         </div>
       </section>
@@ -139,7 +149,7 @@ export default function PaginaProvincia({ params }: Props) {
           <Stagger className="mt-14 grid gap-x-10 gap-y-11 md:grid-cols-3" paso={0.07}>
             {ventajas.map(({ Icono, titulo, texto }) => (
               <Item key={titulo}>
-                <Icono className="h-8 w-8 text-rojo-500" />
+                <Icono className="h-7 w-7 text-tinta" />
                 <h3 className="mt-5 text-lg font-bold uppercase tracking-tight text-tinta">
                   {titulo}
                 </h3>

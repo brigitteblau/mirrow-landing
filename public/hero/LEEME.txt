@@ -1,0 +1,19 @@
+FOTO DEL HERO
+=============
+
+La foto grande del inicio se configura en lib/site.ts, en site.heroFoto.
+
+Dejá la foto acá y actualizá esas tres líneas (src, alt, epigrafe).
+
+Recomendado:
+  local-once.jpg   la vidriera del local con el cartel MIRROW
+  mostrador.jpg    el interior con el logo en la pared y los percheros
+
+Formato: 4:3 apaisada, 1400x1050 o más. Para convertirla a webp optimizado:
+
+  magick foto.jpg -resize 1400x1050^ -gravity center -extent 1400x1050 \
+    -quality 82 public/hero/local-once.webp
+
+Archivos que ya están (sacados del catálogo, provisorios):
+  percheros.webp   remeras colgadas - EN USO HOY
+  showroom.webp    tres personas en la calle

@@ -1,4 +1,4 @@
-import { Swoosh, Wordmark } from '../Logo'
+import { Wordmark } from '../Logo'
 import { Reveal } from '../motion/primitives'
 import { site } from '@/lib/site'
 
@@ -15,10 +15,6 @@ export default function Marca() {
       id="marca"
       className="relative scroll-mt-24 overflow-hidden border-b border-black/10 bg-azul-300 py-20 text-tinta sm:py-28"
     >
-      <Swoosh
-        className="pointer-events-none absolute -left-32 bottom-0 w-[40rem] text-white/25"
-        aria-hidden="true"
-      />
 
       <div className="contenedor relative grid gap-14 lg:grid-cols-[1.05fr_1fr] lg:items-center">
         <div>

@@ -30,12 +30,12 @@ export default function Locales() {
                 <dl className="mt-7 space-y-4">
                   <div className="flex gap-3.5">
                     <dt className="sr-only">Dirección</dt>
-                    <Pin className="mt-0.5 h-5 w-5 shrink-0 text-rojo-500" />
+                    <Pin className="mt-0.5 h-5 w-5 shrink-0 text-premium" />
                     <dd className="text-[0.9375rem] font-semibold text-tinta">{local.direccion}</dd>
                   </div>
                   <div className="flex gap-3.5">
                     <dt className="sr-only">Horario</dt>
-                    <Reloj className="mt-0.5 h-5 w-5 shrink-0 text-rojo-500" />
+                    <Reloj className="mt-0.5 h-5 w-5 shrink-0 text-premium" />
                     <dd className="text-[0.9375rem] text-premium">{local.horario}</dd>
                   </div>
                 </dl>

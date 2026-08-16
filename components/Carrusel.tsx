@@ -83,7 +83,7 @@ export default function Carrusel() {
                   alt={producto.alt}
                   fill
                   sizes="(max-width: 640px) 70vw, (max-width: 1024px) 30vw, 266px"
-                  className="object-cover transition-transform duration-500 ease-marca group-hover:scale-[1.04]"
+                  className="object-cover transition-transform duration-500 ease-marca group-hover:scale-[1.02]"
                 />
                 <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-wider text-tinta backdrop-blur">
                   {producto.linea}

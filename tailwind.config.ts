@@ -52,17 +52,22 @@ const config: Config = {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        // Escala fluida: un solo valor sirve de mobile a desktop.
-        display: ['clamp(2.75rem, 7vw, 6rem)', { lineHeight: '0.94', letterSpacing: '-0.035em' }],
-        titulo: ['clamp(2rem, 4.2vw, 3.5rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
-        subtitulo: ['clamp(1.35rem, 2.2vw, 1.875rem)', { lineHeight: '1.15', letterSpacing: '-0.02em' }],
-        lead: ['clamp(1.0625rem, 1.4vw, 1.25rem)', { lineHeight: '1.6' }],
+        /**
+         * Escala fluida: un solo valor sirve de mobile a desktop.
+         * Deliberadamente contenida. Una fábrica con 57 años no necesita
+         * gritar el titular: el tamaño lo da la foto, no la tipografía.
+         */
+        display: ['clamp(2.125rem, 4vw, 3.375rem)', { lineHeight: '1.04', letterSpacing: '-0.025em' }],
+        titulo: ['clamp(1.625rem, 2.6vw, 2.25rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        subtitulo: ['clamp(1.125rem, 1.5vw, 1.375rem)', { lineHeight: '1.25', letterSpacing: '-0.015em' }],
+        lead: ['clamp(1rem, 1.15vw, 1.125rem)', { lineHeight: '1.65' }],
       },
       maxWidth: {
         contenido: '1240px',
       },
       borderRadius: {
-        marca: '14px',
+        // Radio corto: el radio grande lee "app", no "fábrica".
+        marca: '4px',
       },
       transitionTimingFunction: {
         marca: 'cubic-bezier(0.22, 0.61, 0.36, 1)',

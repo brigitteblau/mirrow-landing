@@ -55,16 +55,21 @@
 
   /* Etiqueta de sección: "01 / Productos", igual que el manual de marca. */
   .rotulo {
-    @apply flex items-center gap-2.5 font-sans text-xs font-bold uppercase tracking-[0.18em] text-premium;
+    @apply flex items-center gap-2.5 font-sans text-[0.6875rem] font-bold uppercase tracking-[0.2em] text-premium;
   }
 
   .rotulo::before {
     content: '';
-    @apply h-px w-8 bg-rojo-500;
+    @apply h-px w-7 bg-rojo-500;
+  }
+
+  /* Regla superior de sección: separa sin gritar. Reemplaza a la trama. */
+  .regla {
+    @apply border-t border-black/10;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-marca px-6 py-3.5 font-sans text-[0.9375rem] font-bold
+    @apply inline-flex items-center justify-center gap-2 rounded-marca px-6 py-3 font-sans text-[0.875rem] font-bold
            transition-colors duration-200 ease-marca;
   }
 
@@ -96,25 +101,8 @@
 }
 
 @layer utilities {
-  /* Trama diagonal del rebranding: se apoya en el ángulo de la tipografía. */
-  .trama-diagonal {
-    background-image: repeating-linear-gradient(
-      -68deg,
-      rgb(0 0 0 / 0.045) 0 1px,
-      transparent 1px 14px
-    );
-  }
-
-  .trama-diagonal-clara {
-    background-image: repeating-linear-gradient(
-      -68deg,
-      rgb(255 255 255 / 0.07) 0 1px,
-      transparent 1px 14px
-    );
-  }
-
-  /* Itálica falsa al ángulo del logotipo, para los rótulos tipo racing. */
-  .inclinado {
-    transform: skewX(-11deg);
+  /* Cifras y códigos de artículo: alineados en columna, ancho fijo. */
+  .cifras-tabulares {
+    font-variant-numeric: tabular-nums;
   }
 }

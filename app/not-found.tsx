@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Swoosh } from '@/components/Logo'
 import { Flecha } from '@/components/icons'
 import { categorias } from '@/lib/productos'
 
@@ -11,11 +10,6 @@ export const metadata = {
 export default function NoEncontrada() {
   return (
     <section className="relative overflow-hidden bg-tinta text-white">
-      <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
-      <Swoosh
-        className="pointer-events-none absolute -right-32 top-0 w-[44rem] text-rojo-500/[0.07]"
-        aria-hidden="true"
-      />
 
       <div className="contenedor relative flex min-h-[70vh] flex-col justify-center py-24">
         <p className="rotulo mb-6 text-white/50">Error 404</p>

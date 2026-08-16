@@ -19,6 +19,21 @@ export const site = {
    * Se configura en Vercel como NEXT_PUBLIC_WHATSAPP.
    */
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? '5491100000000',
+  /**
+   * Foto del hero.
+   *
+   * PROVISORIA: hoy sale una foto del catálogo. Lo que corresponde acá es una
+   * foto propia del taller, el depósito o el showroom de Once — es lo que
+   * termina de decir "somos fábrica hace 57 años". Para cambiarla: dejar el
+   * archivo en /public/hero (1400x1050, .webp) y actualizar estas tres líneas.
+   *
+   * Alternativa ya procesada: /hero/showroom.webp
+   */
+  heroFoto: {
+    src: '/hero/percheros.webp',
+    alt: 'Remeras de algodón colgadas en perchero, blanco, azul y negro',
+    epigrafe: 'Línea de remeras lisas, temporada verano 2025.',
+  },
   socials: [
     { label: 'Instagram', href: 'https://instagram.com/mirrow.oficial' },
     { label: 'TikTok', href: 'https://tiktok.com/@mirrow' },

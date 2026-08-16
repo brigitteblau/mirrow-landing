@@ -1,0 +1,20 @@
+LOGOS DE CLIENTES
+=================
+
+Dejá acá los archivos y después activá cada marca en lib/marcas.js
+poniendo la ruta en el campo "logo".
+
+Nombres esperados (podés usar .svg o .png):
+
+  rica-lewis.png     ->  logo: '/marcas/rica-lewis.png'
+  bravo.png          ->  logo: '/marcas/bravo.png'      (ya tiene invertir: true)
+  funic.png          ->  logo: '/marcas/funic.png'
+  blau.png           ->  logo: '/marcas/blau.png'
+
+Requisitos:
+  - SVG es lo ideal. Si es PNG, con fondo transparente y 400 px de ancho mínimo.
+  - Sin fondo blanco pegado ni márgenes grandes alrededor del logo.
+  - Si el logo es blanco, dejá invertir: true en lib/marcas.js.
+
+Mientras no haya archivo, la marca se muestra con el nombre en tipografía.
+La página no se rompe.

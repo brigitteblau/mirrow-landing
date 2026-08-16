@@ -1,5 +1,5 @@
 import Hero from '@/components/sections/Hero'
-import Cifras from '@/components/sections/Cifras'
+import Marcas from '@/components/sections/Marcas'
 import Productos from '@/components/sections/Productos'
 import Destacados from '@/components/sections/Destacados'
 import Mayoristas from '@/components/sections/Mayoristas'
@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Cifras />
+      <Marcas />
       <Productos />
       <Destacados />
       <Mayoristas />
