@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import CarruselMini from '../CarruselMini'
 import { iconosPrenda, type IconoPrenda } from '../icons'
 import { Elevar, Item, Reveal, Stagger } from '../motion/primitives'
 import { categorias, temporada } from '@/lib/productos'
@@ -25,31 +25,26 @@ export default function Productos() {
           </Reveal>
         </div>
 
-        <Stagger className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" paso={0.06}>
+        <Stagger className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" paso={0.06}>
           {categorias.map((categoria, i) => {
             const Icono = iconosPrenda[categoria.icono as IconoPrenda]
 
             return (
               <Item key={categoria.slug} as="article">
-                <Elevar className="group flex h-full flex-col overflow-hidden rounded-marca border border-black/10 bg-white transition-colors duration-300 hover:border-tinta">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-elegancia">
-                    <Image
-                      src={categoria.foto}
+                <Elevar className="group flex h-full flex-col">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-elegancia">
+                    <CarruselMini
+                      fotos={categoria.fotos ?? [categoria.foto]}
                       alt={categoria.alt}
-                      fill
                       /* Las tres primeras entran en el primer scroll en desktop. */
                       priority={i < 3}
                       sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 380px"
-                      className="object-cover object-top transition-transform duration-700 ease-marca group-hover:scale-[1.05]"
                     />
-                    <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-wider text-tinta backdrop-blur">
-                      {categoria.articulos.length} art.
-                    </span>
                   </div>
 
-                  <div className="flex flex-1 flex-col p-7">
-                    <div className="mb-4 flex items-center gap-3">
-                      <Icono className="h-7 w-7 shrink-0 text-tinta transition-colors duration-300 group-hover:text-rojo-500" />
+                  <div className="flex flex-1 flex-col pt-6">
+                    <div className="mb-3 flex items-center gap-3">
+                      <Icono className="h-6 w-6 shrink-0 text-tinta transition-colors duration-300 group-hover:text-rojo-500" />
                       <h3 className="text-subtitulo uppercase">{categoria.nombre}</h3>
                     </div>
 
@@ -58,12 +53,11 @@ export default function Productos() {
                       {categoria.detalle}
                     </p>
 
-                    <dl className="mt-6 flex items-baseline gap-2 border-t border-black/10 pt-5">
-                      <dt className="text-[0.6875rem] font-bold uppercase tracking-wider text-premium">
-                        Talles
-                      </dt>
-                      <dd className="text-sm font-bold text-tinta">{categoria.talles}</dd>
-                    </dl>
+                    <p className="mt-6 border-t border-black/10 pt-5 text-[0.8125rem] text-premium">
+                      <span className="font-bold text-tinta">Talles {categoria.talles}</span>
+                      {' · '}
+                      {categoria.articulos.length} artículos
+                    </p>
                   </div>
                 </Elevar>
               </Item>

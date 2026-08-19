@@ -5,6 +5,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Flecha } from './icons'
 import { destacados } from '@/lib/productos'
 
+/** Cada cuánto avanza sola una tarjeta. */
+const INTERVALO_AUTOPLAY = 3500
+
 /**
  * Carrusel de destacados.
  *
@@ -12,11 +15,16 @@ import { destacados } from '@/lib/productos'
  * dedo en mobile, con la rueda o las flechas en desktop, y funciona aunque
  * el JS todavía no haya hidratado. Las flechas se desactivan solas en los
  * extremos para no dar un click muerto.
+ *
+ * Avanza solo cada INTERVALO_AUTOPLAY y vuelve al principio al llegar al
+ * final, en loop. Se pausa mientras el mouse o el dedo están encima, y no
+ * arranca si el sistema pide reducir animaciones.
  */
 export default function Carrusel() {
   const pista = useRef<HTMLUListElement>(null)
   const [puedeIzquierda, setPuedeIzquierda] = useState(false)
   const [puedeDerecha, setPuedeDerecha] = useState(true)
+  const [enPausa, setEnPausa] = useState(false)
 
   const revisarBordes = useCallback(() => {
     const el = pista.current
@@ -41,6 +49,24 @@ export default function Carrusel() {
     el.scrollBy({ left: paso * direccion, behavior: 'smooth' })
   }
 
+  useEffect(() => {
+    if (enPausa) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const id = window.setInterval(() => {
+      const el = pista.current
+      if (!el) return
+      const alFinal = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2
+      if (alFinal) {
+        el.scrollTo({ left: 0, behavior: 'smooth' })
+      } else {
+        mover(1)
+      }
+    }, INTERVALO_AUTOPLAY)
+
+    return () => window.clearInterval(id)
+  }, [enPausa])
+
   return (
     <div className="relative">
       <div className="mb-7 flex items-center justify-end gap-2">
@@ -49,24 +75,30 @@ export default function Carrusel() {
           onClick={() => mover(-1)}
           disabled={!puedeIzquierda}
           aria-label="Ver anteriores"
-          className="grid h-11 w-11 place-items-center rounded-full border border-black/15 text-tinta transition-all duration-200 hover:border-tinta disabled:pointer-events-none disabled:opacity-25"
+          className="grid h-9 w-9 place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
         >
-          <Flecha className="h-[18px] w-[18px] rotate-180" />
+          <Flecha className="h-5 w-5 rotate-180" />
         </button>
         <button
           type="button"
           onClick={() => mover(1)}
           disabled={!puedeDerecha}
           aria-label="Ver siguientes"
-          className="grid h-11 w-11 place-items-center rounded-full border border-black/15 text-tinta transition-all duration-200 hover:border-tinta disabled:pointer-events-none disabled:opacity-25"
+          className="grid h-9 w-9 place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
         >
-          <Flecha className="h-[18px] w-[18px]" />
+          <Flecha className="h-5 w-5" />
         </button>
       </div>
 
       <ul
         ref={pista}
         onScroll={revisarBordes}
+        onMouseEnter={() => setEnPausa(true)}
+        onMouseLeave={() => setEnPausa(false)}
+        onTouchStart={() => setEnPausa(true)}
+        onTouchEnd={() => setEnPausa(false)}
+        onFocus={() => setEnPausa(true)}
+        onBlur={() => setEnPausa(false)}
         /* Sin scrollbar visible: la afordancia son las flechas y la tarjeta
            que asoma cortada a la derecha. */
         className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -77,20 +109,20 @@ export default function Carrusel() {
             className="w-[70vw] shrink-0 snap-start sm:w-[46vw] md:w-[30vw] lg:w-[266px]"
           >
             <article className="group h-full">
-              <div className="relative aspect-[3/4] overflow-hidden rounded-marca bg-elegancia">
+              <div className="relative aspect-[3/4] overflow-hidden bg-elegancia">
                 <Image
                   src={producto.foto}
                   alt={producto.alt}
                   fill
                   sizes="(max-width: 640px) 70vw, (max-width: 1024px) 30vw, 266px"
-                  className="object-cover transition-transform duration-500 ease-marca group-hover:scale-[1.04]"
+                  className="object-contain p-6 transition-transform duration-500 ease-marca group-hover:scale-[1.03]"
                 />
-                <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[0.6875rem] font-bold uppercase tracking-wider text-tinta backdrop-blur">
-                  {producto.linea}
-                </span>
               </div>
 
-              <h3 className="mt-4 text-base font-bold uppercase tracking-tight text-tinta">
+              <p className="mt-4 text-[0.6875rem] font-bold uppercase tracking-wider text-premium">
+                {producto.linea}
+              </p>
+              <h3 className="mt-1 text-base font-bold uppercase tracking-tight text-tinta">
                 {producto.nombre}
               </h3>
               <p className="mt-1 text-[0.8125rem] text-premium">
