@@ -200,9 +200,15 @@ export function Marquesina({
 export function Elevar({
   children,
   className,
+  ...resto
 }: {
   children: React.ReactNode
   className?: string
+  role?: string
+  tabIndex?: number
+  onClick?: React.MouseEventHandler<HTMLDivElement>
+  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>
+  'aria-haspopup'?: React.AriaAttributes['aria-haspopup']
 }) {
   const quieto = useReducedMotion()
 
@@ -211,6 +217,7 @@ export function Elevar({
       className={className}
       whileHover={quieto ? undefined : { y: -6 }}
       transition={{ duration: 0.3, ease: EASE }}
+      {...resto}
     >
       {children}
     </motion.div>

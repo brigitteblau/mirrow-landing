@@ -109,21 +109,29 @@ export default function CarruselMini({
         ))}
       </div>
 
+      {/* Visibles siempre en mobile (no hay hover táctil confiable); en
+          desktop aparecen solo al pasar el mouse. */}
       <button
         type="button"
-        onClick={() => irA(Math.max(indice - 1, 0))}
+        onClick={(e) => {
+          e.stopPropagation()
+          irA(Math.max(indice - 1, 0))
+        }}
         disabled={indice === 0}
         aria-label="Foto anterior"
-        className="absolute left-0 top-1/2 -translate-y-1/2 p-2.5 text-tinta opacity-0 transition-opacity duration-200 group-hover:opacity-100 disabled:pointer-events-none disabled:opacity-0"
+        className="absolute left-0 top-1/2 -translate-y-1/2 touch-manipulation p-3 text-tinta opacity-100 transition-opacity duration-200 disabled:pointer-events-none disabled:opacity-0 sm:opacity-0 sm:group-hover:opacity-100"
       >
         <Flecha className="h-4 w-4 rotate-180" />
       </button>
       <button
         type="button"
-        onClick={() => irA(Math.min(indice + 1, fotos.length - 1))}
+        onClick={(e) => {
+          e.stopPropagation()
+          irA(Math.min(indice + 1, fotos.length - 1))
+        }}
         disabled={indice === fotos.length - 1}
         aria-label="Foto siguiente"
-        className="absolute right-0 top-1/2 -translate-y-1/2 p-2.5 text-tinta opacity-0 transition-opacity duration-200 group-hover:opacity-100 disabled:pointer-events-none disabled:opacity-0"
+        className="absolute right-0 top-1/2 -translate-y-1/2 touch-manipulation p-3 text-tinta opacity-100 transition-opacity duration-200 disabled:pointer-events-none disabled:opacity-0 sm:opacity-0 sm:group-hover:opacity-100"
       >
         <Flecha className="h-4 w-4" />
       </button>
@@ -133,12 +141,19 @@ export default function CarruselMini({
           <button
             key={i}
             type="button"
-            onClick={() => irA(i)}
+            onClick={(e) => {
+              e.stopPropagation()
+              irA(i)
+            }}
             aria-label={`Ir a la foto ${i + 1}`}
-            className={`h-1 rounded-full transition-all duration-200 ${
-              i === indice ? 'w-4 bg-tinta' : 'w-1 bg-tinta/25'
-            }`}
-          />
+            className="touch-manipulation p-1.5"
+          >
+            <span
+              className={`block h-1 rounded-full transition-all duration-200 ${
+                i === indice ? 'w-4 bg-tinta' : 'w-1 bg-tinta/25'
+              }`}
+            />
+          </button>
         ))}
       </div>
     </div>

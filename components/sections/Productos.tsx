@@ -1,10 +1,16 @@
+'use client'
+
+import { useState } from 'react'
 import CarruselMini from '../CarruselMini'
+import ModalProducto from '../ModalProducto'
 import { iconosPrenda, type IconoPrenda } from '../icons'
 import { Elevar, Item, Reveal, Stagger } from '../motion/primitives'
 import { categorias, temporada } from '@/lib/productos'
 import { site } from '@/lib/site'
 
 export default function Productos() {
+  const [abierta, setAbierta] = useState<(typeof categorias)[number] | null>(null)
+
   return (
     <section id="productos" className="scroll-mt-24 border-b border-black/10 bg-elegancia py-20 sm:py-28">
       <div className="contenedor">
@@ -25,38 +31,54 @@ export default function Productos() {
           </Reveal>
         </div>
 
-        <Stagger className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3" paso={0.06}>
+        <Stagger className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-8 sm:gap-y-14 lg:grid-cols-3" paso={0.06}>
           {categorias.map((categoria, i) => {
             const Icono = iconosPrenda[categoria.icono as IconoPrenda]
 
             return (
               <Item key={categoria.slug} as="article">
-                <Elevar className="group flex h-full flex-col">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-elegancia">
+                <Elevar
+                  className="group flex h-full cursor-pointer touch-manipulation flex-col"
+                  role="button"
+                  tabIndex={0}
+                  aria-haspopup="dialog"
+                  onClick={() => setAbierta(categoria)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      setAbierta(categoria)
+                    }
+                  }}
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-marca bg-elegancia">
                     <CarruselMini
                       fotos={categoria.fotos ?? [categoria.foto]}
                       alt={categoria.alt}
                       /* Las tres primeras entran en el primer scroll en desktop. */
                       priority={i < 3}
-                      sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 380px"
+                      sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 380px"
                     />
                   </div>
 
-                  <div className="flex flex-1 flex-col pt-6">
-                    <div className="mb-3 flex items-center gap-3">
-                      <Icono className="h-6 w-6 shrink-0 text-tinta transition-colors duration-300 group-hover:text-rojo-500" />
-                      <h3 className="text-subtitulo uppercase">{categoria.nombre}</h3>
+                  <div className="flex flex-1 flex-col pt-4 sm:pt-6">
+                    <div className="mb-2 flex items-center gap-2 sm:mb-3 sm:gap-3">
+                      <Icono className="h-5 w-5 shrink-0 text-tinta transition-colors duration-300 group-hover:text-rojo-500 sm:h-6 sm:w-6" />
+                      <h3 className="text-sm font-bold uppercase tracking-tight text-tinta sm:text-subtitulo">
+                        {categoria.nombre}
+                      </h3>
                     </div>
 
-                    <p className="text-sm font-semibold text-rojo-500">{categoria.claim}</p>
-                    <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-premium">
+                    <p className="text-xs font-semibold text-rojo-500 sm:text-sm">{categoria.claim}</p>
+                    <p className="mt-3 hidden flex-1 text-[0.9375rem] leading-relaxed text-premium sm:block">
                       {categoria.detalle}
                     </p>
 
-                    <p className="mt-6 border-t border-black/10 pt-5 text-[0.8125rem] text-premium">
+                    <p className="mt-3 border-t border-black/10 pt-3 text-[0.6875rem] text-premium sm:mt-6 sm:pt-5 sm:text-[0.8125rem]">
                       <span className="font-bold text-tinta">Talles {categoria.talles}</span>
-                      {' · '}
-                      {categoria.articulos.length} artículos
+                      <span className="hidden sm:inline">
+                        {' · '}
+                        {categoria.articulos.length} artículos
+                      </span>
                     </p>
                   </div>
                 </Elevar>
@@ -74,6 +96,8 @@ export default function Productos() {
           </a>
         </Reveal>
       </div>
+
+      <ModalProducto categoria={abierta} onClose={() => setAbierta(null)} />
     </section>
   )
 }

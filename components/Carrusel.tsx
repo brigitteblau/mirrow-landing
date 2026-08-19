@@ -75,7 +75,7 @@ export default function Carrusel() {
           onClick={() => mover(-1)}
           disabled={!puedeIzquierda}
           aria-label="Ver anteriores"
-          className="grid h-9 w-9 place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
+          className="grid h-11 w-11 touch-manipulation place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
         >
           <Flecha className="h-5 w-5 rotate-180" />
         </button>
@@ -84,7 +84,7 @@ export default function Carrusel() {
           onClick={() => mover(1)}
           disabled={!puedeDerecha}
           aria-label="Ver siguientes"
-          className="grid h-9 w-9 place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
+          className="grid h-11 w-11 touch-manipulation place-items-center text-tinta transition-colors duration-200 hover:text-rojo-500 disabled:pointer-events-none disabled:opacity-25"
         >
           <Flecha className="h-5 w-5" />
         </button>
@@ -109,7 +109,7 @@ export default function Carrusel() {
             className="w-[70vw] shrink-0 snap-start sm:w-[46vw] md:w-[30vw] lg:w-[266px]"
           >
             <article className="group h-full">
-              <div className="relative aspect-[3/4] overflow-hidden bg-elegancia">
+              <div className="relative aspect-[3/4] overflow-hidden rounded-marca bg-elegancia">
                 <Image
                   src={producto.foto}
                   alt={producto.alt}
