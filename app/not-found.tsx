@@ -10,14 +10,14 @@ export const metadata = {
 
 export default function NoEncontrada() {
   return (
-    <section className="relative overflow-hidden bg-tinta text-white">
+    <section data-tema="oscuro" className="relative overflow-hidden bg-tinta text-white">
       <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
       <Swoosh
         className="pointer-events-none absolute -right-32 top-0 w-[44rem] text-rojo-500/[0.07]"
         aria-hidden="true"
       />
 
-      <div className="contenedor relative flex min-h-[70vh] flex-col justify-center py-24">
+      <div className="contenedor relative flex min-h-[70vh] flex-col justify-center pb-24 pt-28">
         <p className="rotulo mb-6 text-white/50">Error 404</p>
         <h1 className="max-w-[16ch] text-display uppercase">Esta página no existe</h1>
         <p className="mt-7 max-w-md text-lead text-white/65">

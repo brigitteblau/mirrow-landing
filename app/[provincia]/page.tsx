@@ -77,14 +77,14 @@ export default function PaginaProvincia({ params }: Props) {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-tinta text-white">
+      <section data-tema="oscuro" className="relative overflow-hidden bg-tinta text-white">
         <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
         <Swoosh
           className="pointer-events-none absolute -right-24 top-8 hidden w-[42rem] text-rojo-500/[0.07] md:block"
           aria-hidden="true"
         />
 
-        <div className="contenedor relative pb-16 pt-16 sm:pb-24 sm:pt-20">
+        <div className="contenedor relative pb-16 pt-28 sm:pb-24 sm:pt-32">
           <Reveal as="p" className="mb-8 text-sm text-white/45" distancia={10}>
             <Link href="/" className="transition-colors hover:text-white">
               Inicio

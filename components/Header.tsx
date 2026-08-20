@@ -18,14 +18,34 @@ const consulta = 'Hola Mirrow, quiero pedir la lista mayorista.'
 
 export default function Header() {
   const [abierto, setAbierto] = useState(false)
-  const [scrolleado, setScrolleado] = useState(false)
+  // Todas las páginas arrancan con una sección oscura arriba (el hero), así
+  // que el header arranca transparente y pasa a sólido recién cuando esa
+  // sección termina de pasar por debajo suyo.
+  const [solido, setSolido] = useState(false)
   const quieto = useReducedMotion()
 
   useEffect(() => {
-    const alScrollear = () => setScrolleado(window.scrollY > 12)
+    // El header flota transparente mientras la sección de arriba (marcada con
+    // data-tema="oscuro", el hero) siga detrás suyo; en cuanto esa sección
+    // termina de pasar se pone sólido, sin importar cuánto mida esa sección.
+    const marcador = document.querySelector<HTMLElement>('[data-tema="oscuro"]')
+
+    const alScrollear = () => {
+      if (!marcador) {
+        setSolido(window.scrollY > 12)
+        return
+      }
+      const { bottom } = marcador.getBoundingClientRect()
+      setSolido(bottom <= 73)
+    }
+
     alScrollear()
     window.addEventListener('scroll', alScrollear, { passive: true })
-    return () => window.removeEventListener('scroll', alScrollear)
+    window.addEventListener('resize', alScrollear)
+    return () => {
+      window.removeEventListener('scroll', alScrollear)
+      window.removeEventListener('resize', alScrollear)
+    }
   }, [])
 
   // Con el panel abierto el fondo no debe scrollear detrás.
@@ -38,13 +58,17 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b transition-colors duration-300 ease-marca ${
-        scrolleado ? 'border-black/10 bg-white/85 backdrop-blur-xl' : 'border-transparent bg-white'
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ease-marca ${
+        solido
+          ? 'border-black/10 bg-white/85 backdrop-blur-xl'
+          : 'border-transparent bg-transparent'
       }`}
     >
       <div className="contenedor flex h-[72px] items-center justify-between gap-6">
         <Link href="/" aria-label="Mirrow, inicio" className="shrink-0">
-          <Wordmark className="h-[19px] w-auto text-tinta" />
+          <Wordmark
+            className={`h-[19px] w-auto transition-colors duration-300 ${solido ? 'text-tinta' : 'text-white'}`}
+          />
         </Link>
 
         <nav aria-label="Principal" className="hidden items-center gap-8 lg:flex">
@@ -52,7 +76,9 @@ export default function Header() {
             <Link
               key={enlace.href}
               href={enlace.href}
-              className="group relative py-1 text-[0.9375rem] font-semibold text-tinta/75 transition-colors hover:text-tinta"
+              className={`group relative py-1 text-[0.9375rem] font-semibold transition-colors ${
+                solido ? 'text-tinta/75 hover:text-tinta' : 'text-white/80 hover:text-white'
+              }`}
             >
               {enlace.label}
               <span className="absolute -bottom-0.5 left-0 h-[2px] w-0 bg-rojo-500 transition-all duration-300 ease-marca group-hover:w-full" />
@@ -65,11 +91,16 @@ export default function Header() {
             href={site.tienda}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden text-[0.9375rem] font-semibold text-tinta/75 transition-colors hover:text-tinta sm:inline"
+            className={`hidden text-[0.9375rem] font-semibold transition-colors sm:inline ${
+              solido ? 'text-tinta/75 hover:text-tinta' : 'text-white/80 hover:text-white'
+            }`}
           >
             Tienda online
           </a>
-          <a href="#contacto" className="btn-oscuro hidden !py-2.5 !text-sm lg:inline-flex">
+          <a
+            href="#contacto"
+            className={`hidden !py-2.5 !text-sm lg:inline-flex ${solido ? 'btn-oscuro' : 'btn-claro'}`}
+          >
             Pedir lista mayorista
           </a>
           <button
@@ -77,7 +108,9 @@ export default function Header() {
             onClick={() => setAbierto(true)}
             aria-label="Abrir menú"
             aria-expanded={abierto}
-            className="grid h-10 w-10 place-items-center rounded-marca border border-black/10 text-tinta lg:hidden"
+            className={`grid h-10 w-10 place-items-center rounded-marca border transition-colors duration-300 lg:hidden ${
+              solido ? 'border-black/10 text-tinta' : 'border-white/25 text-white'
+            }`}
           >
             <Menu className="h-5 w-5" />
           </button>

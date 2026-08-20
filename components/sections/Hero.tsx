@@ -1,4 +1,5 @@
 import { Swoosh } from '../Logo'
+import HeroImagen from '../HeroImagen'
 import { Flecha, WhatsApp } from '../icons'
 import { Marquesina, Reveal, TituloAnimado } from '../motion/primitives'
 import { site, whatsappLink } from '@/lib/site'
@@ -14,47 +15,54 @@ const cinta = [
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-tinta text-white">
+    <section
+      data-tema="oscuro"
+      className="relative flex min-h-dvh flex-col overflow-hidden bg-tinta text-white"
+    >
       <div className="trama-diagonal-clara absolute inset-0" aria-hidden="true" />
       <Swoosh
         className="pointer-events-none absolute -right-24 top-4 hidden w-[46rem] text-rojo-500/[0.07] md:block"
         aria-hidden="true"
       />
 
-      <div className="contenedor relative pb-16 pt-20 sm:pb-24 sm:pt-28">
-        <Reveal as="p" className="rotulo mb-7 text-white/55" distancia={12}>
-          {/* Mayoristas · {temporada} */}
-          Mayoristas
-        </Reveal>
+      <div className="contenedor relative flex flex-1 flex-col justify-center gap-10 pb-16 pt-24 sm:pb-20 sm:pt-28 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+        <div className="lg:max-w-xl">
+          <Reveal as="p" className="rotulo mb-7 text-white/55" distancia={12}>
+            {/* Mayoristas · {temporada} */}
+            Mayoristas
+          </Reveal>
 
-        <TituloAnimado
-          texto="Ropa de hombre por mayor"
-          className="max-w-[16ch] text-display uppercase"
-        />
+          <TituloAnimado
+            texto="Ropa de hombre por mayor"
+            className="max-w-[16ch] text-display uppercase"
+          />
 
-        <Reveal delay={0.35} className="mt-8 max-w-xl">
-          <p className="text-lead text-white/70">
-            Somos fábrica. {site.years} años produciendo indumentaria masculina en Buenos Aires y
-            abasteciendo a locales de todo el país. Vos elegís el surtido, nosotros lo tenemos en
-            stock.
-          </p>
-        </Reveal>
+          <Reveal delay={0.35} className="mt-8 max-w-xl">
+            <p className="text-lead text-white/70">
+              Somos fábrica. {site.years} años produciendo indumentaria masculina en Buenos Aires y
+              abasteciendo a locales de todo el país. Vos elegís el surtido, nosotros lo tenemos en
+              stock.
+            </p>
+          </Reveal>
 
-        <Reveal delay={0.45} className="mt-10 flex flex-col gap-3 sm:flex-row">
-          <a href="#contacto" className="btn-primario">
-            Pedir lista mayorista
-            <Flecha className="h-[18px] w-[18px]" />
-          </a>
-          <a
-            href={whatsappLink('Hola Mirrow, quiero consultar por venta mayorista.')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-claro"
-          >
-            <WhatsApp className="h-5 w-5" />
-            Hablar con un asesor
-          </a>
-        </Reveal>
+          <Reveal delay={0.45} className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a href="#contacto" className="btn-primario">
+              Pedir lista mayorista
+              <Flecha className="h-[18px] w-[18px]" />
+            </a>
+            <a
+              href={whatsappLink('Hola Mirrow, quiero consultar por venta mayorista.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-claro"
+            >
+              <WhatsApp className="h-5 w-5" />
+              Hablar con un asesor
+            </a>
+          </Reveal>
+        </div>
+
+        <HeroImagen />
       </div>
 
       {/* Cinta de argumentos: repite el ángulo del logotipo. */}
